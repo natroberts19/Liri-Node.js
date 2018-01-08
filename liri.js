@@ -1,19 +1,13 @@
-// // This code is necessary to read and set environment variables with the dotenv package:
-// require("dotenv").config();
+// This code is necessary to read and set environment variables with the dotenv package:
+require("dotenv").config();
 
-// // This code imports the keys.js file which holds the Twitter and Spotify API keys:
-// var info = require("./keys.js");
-// console.log(info);
+// This code imports the keys.js file which holds the Twitter and Spotify API keys:
+var keys = require("./keys.js");
+console.log(keys);
 
-// // This allows access your keys information:
-// var spotify = new Spotify(keys.spotify);
-// var client = new Twitter(keys.twitter);
-// console.log(client);
+// Make it so liri.js can take in one of the following commands: my-tweets, spotify-this-song, movie-this, do-what-it-says
 
-// Make it so liri.js can take in one of the following commands:
-// my-tweets, spotify-this-song, movie-this, do-what-it-says
-
-// CODE BELOW:
+// COMMAND CODE BELOW:
 // Set up a variable to represent each of the commands:
 var command = process.argv[2];
 
@@ -32,10 +26,38 @@ switch(command) {
 }
 
 // Create command "node liri.js my-tweets" - This will show my last 20 tweets and when they were created in the terminal/bash window.
+    // Include the require Twitter package: 
+    var Twitter = require('twitter');
+    //  Access the spotify keys from the keys.js file:
+    var client = new Twitter(keys.twitter);
+    console.log(client);
+    
+   var params = {screen_name: 'nodejs'};
+   client.get('statuses/user_timeline', params, function(error, tweets, response) {
+     if (!error) {
+       console.log(tweets);
+     }
+   });
 
-// Create command "node liri.js spotify-this-song '<song name here>'" -  This will...
+// Create command "node liri.js spotify-this-song '<song name here>'" -  This will pull in the song info based on the instructions and default to "The Sign" by Ace of Base if no song is requested.
 
-// Create command "node liri.js movie-this '<movie name here>'" - pull in the info listed in the instructions and default to Mr. Nobody if no movie is entered.
+    // Include the require Spotify package.
+    var Spotify = require('node-spotify-api');
+    //  Access the spotify keys from the keys.js file:
+    var spotify = new Spotify(keys.spotify);
+    console.log(spotify);
+    
+    // Access and request song data from the Spotify API:
+    spotify
+    .request('https://api.spotify.com/v1/search')
+    .then(function(data) {
+      console.log(data); 
+    })
+    .catch(function(err) {
+      console.error('Error occurred: ' + err); 
+    });
+
+// Create command "node liri.js movie-this '<movie name here>'" - pull in the movie info listed in the instructions and default to Mr. Nobody if no movie is entered.
 
     // Include the request npm package.
     var request = require("request");
@@ -69,4 +91,32 @@ switch(command) {
             console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
         }
+    });
+
+// Create command "node liri.js do-what-it-says" - using fs node package, read the info listed from the random.txt file.
+    // fs is a core Node package for reading and writing files
+    var fs = require("fs");
+
+    // This block of code will read from the "random.txt" file.
+    // The code will store the contents of the reading inside the variable "data"
+    fs.readFile("random.txt", "utf8", function(error, data) {
+
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+        return console.log(error);
+    }
+
+    // Log the contents of data
+    console.log(data);
+
+    // Break the string down by comma separation.
+    var dataArr = data.split(",");
+
+    // We will then re-display the content as an array for later use.
+    console.log(dataArr);
+
+    //   Loop through the newly created output array.
+    for (var i = 0; i < dataArr.length; i++) {
+        console.log(dataArr[i]);
+    }
     });
