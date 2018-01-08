@@ -1,0 +1,31 @@
+{
+  "name": "liri-node-app",
+  "version": "1.0.0",
+  "description": "This file will hold my npm packages.",
+  "main": "liri.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natroberts19/liri-node-app.git"
+  },
+  "keywords": [
+    "twitter",
+    "spotify",
+    "omdb",
+    "liri"
+  ],
+  "author": "Natalie Roberts",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natroberts19/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/natroberts19/liri-node-app#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.83.0",
+    "twitter": "^1.7.1"
+  }
+}
