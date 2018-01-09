@@ -1,14 +1,15 @@
 // This code is necessary to read and set environment variables with the dotenv package:
 require("dotenv").config();
 
-// // This code imports the keys.js file which holds the Twitter and Spotify API keys:
+// This code imports the keys.js file which holds the Twitter and Spotify API keys:
 var keys = require("./keys.js");
-console.log(keys);
+console.log("These are the keys for Twitter & Spotify: ", keys);
 
-// Now, make it so liri.js can take in the following commands: my-tweets, spotify-this-song, movie-this, do-what-it-says
+// Now, make it so liri.js can take in the following commands: 
+// my-tweets, spotify-this-song, movie-this, do-what-it-says
 
 // COMMAND CODE BELOW:
-// Set up a variable to represent each of the commands. Convert to lower case.:
+// Set up a variable to represent each of the commands:
 var command = process.argv[2];
 
 // Set up a switch statement for each command.
@@ -27,7 +28,7 @@ switch (command) {
         doIt();
         break;
     default:
-        console.log("nothing");
+        console.log("No command was entered.");
         break;
 }
 
@@ -37,38 +38,37 @@ function twitter() {
     var Twitter = require('twitter');
     //  Access the twitter keys from the keys.js file:
     var client = new Twitter(keys.twitter);
-    console.log(client);
+    console.log("This is the client: ", client);
 
     var params = {
         screen_name: 'nodejs'
     };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            console.log(tweets);
+            console.log("These are the tweets: ", tweets);
         }
     });
 }
 
-
 // SPOTIFY CODE: Command "node liri.js spotify-this-song '<song name here>'" - This will pull in the song info based on the instructions and default to "The Sign" by Ace of Base if no song is requested.
+
 function spotify() {
     // Include the require Spotify package.
     var Spotify = require('node-spotify-api');
     //  Access the spotify keys from the keys.js file:
     var spotify = new Spotify(keys.spotify);
-    console.log(spotify);
+    console.log("Spotify keys: ", spotify);
 
-    // Access and request song data from the Spotify API:
-    spotify
-    .request('https://api.spotify.com/v1/search')
-    .then(function(data) {
+    var song = process.argv[3];
+    // Access and request song data from the Spotify API:    
+    spotify.search({ type: 'track', query: song }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+       
       console.log(data); 
-    })
-    .catch(function(err) {
-      console.error('Error occurred: ' + err); 
-    });
+      });
 }
-
 
 // MOVIES CODE: Command "node liri.js movie-this '<movie name here>'" - pull in the movie info listed in the instructions and default to Mr. Nobody if no movie is entered.
 function movies() {
@@ -83,18 +83,19 @@ for (var i = 3; i < nodeArgs.length; i++) {
     if (i > 3 && i < nodeArgs.length) {
         movieName = movieName + "+" + nodeArgs[i];
         // Add in a contingency for when no movie title is entered then default to Mr. Nobody:
-        // CODE HERE
+        // *** ADD CODE HERE ***
     } else {
         movieName += nodeArgs[i];
     }
 }
 // Then run a request to the OMDB API with the movie specified.
-var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy"
+var queryUrlMovies = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy"
 
-request(queryUrl, function (error, response, body) {
+request(queryUrlMovies, function (error, response, body) {
     // If the request is successful
     if (!error && response.statusCode === 200) {
         // Parse the body of the site and recover the Title, Year, IMDB Rating, Rotten Tomatoes Rating, Country, Language, Plot, Actors.
+        // Log the results:
         console.log("Title: " + JSON.parse(body).Title);
         console.log("Year: " + JSON.parse(body).Year);
         console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
@@ -106,7 +107,6 @@ request(queryUrl, function (error, response, body) {
     }
 });
 }
-
 
 // DOIT CODE: Command "node liri.js do-what-it-says" - using fs node package, read the info listed from the random.txt file.
 function doIt() {
