@@ -19,9 +19,13 @@ switch (command) {
         break;
     case "spotify-this-song":
         spotify();
+        // Add in a contingency for when no song title is entered then default to The Sign:
+            // *** ADD CODE HERE ***
         break;
     case "movie-this":
         movies();
+         // Add in a contingency for when no movie title is entered then default to Mr. Nobody:
+            // *** ADD CODE HERE ***
         break;
     case "do-what-it-says":
         doIt();
@@ -63,9 +67,7 @@ function spotify() {
     for (var i = 3; i < nodeArgsSpotify.length; i++) {
         if (i > 3 && i < nodeArgsSpotify.length) {
             songName = songName + " " + nodeArgsSpotify[i];
-            // Add in a contingency for when no song title is entered then default to The Sign:
-            // *** ADD CODE HERE ***
-        } else {
+            } else {
             songName += nodeArgsSpotify[i];
         }
     }
@@ -73,7 +75,7 @@ function spotify() {
     // Create the variables to use in the song search:
     params = songName;
     var space = " ";
-    // Access and request song data from the Spotify API:  
+    // Access and request song data from the Spotify API. 
     // Solution from Stack: https://stackoverflow.com/questions/47657135/how-to-extract-data-from-spotify-npm-package-i-keep-getting-undefine  
     spotify.search({
         type: 'track',
@@ -84,7 +86,7 @@ function spotify() {
         } else {
             output = space + "Song Name: " + songName.toUpperCase() + "," +
                 space + "Artist Name: " + data.tracks.items[0].album.artists[0].name + "," +
-                space + "Album Name: " + data.tracks.items[0].album.name;;
+                space + "Album Name: " + data.tracks.items[0].album.name;
             console.log(output);
         };
     });
@@ -102,8 +104,6 @@ function movies() {
     for (var i = 3; i < nodeArgsMovies.length; i++) {
         if (i > 3 && i < nodeArgsMovies.length) {
             movieName = movieName + "+" + nodeArgsMovies[i];
-            // Add in a contingency for when no movie title is entered then default to Mr. Nobody:
-            // *** ADD CODE HERE ***
         } else {
             movieName += nodeArgsMovies[i];
         }
