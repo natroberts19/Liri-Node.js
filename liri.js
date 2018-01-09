@@ -3,7 +3,6 @@ require("dotenv").config();
 
 // This code imports the keys.js file which holds the Twitter and Spotify API keys:
 var keys = require("./keys.js");
-console.log("These are the keys for Twitter & Spotify: ", keys);
 
 // Now, make it so liri.js can take in the following commands: 
 // my-tweets, spotify-this-song, movie-this, do-what-it-says
@@ -51,22 +50,42 @@ function twitter() {
 }
 
 // SPOTIFY CODE: Command "node liri.js spotify-this-song '<song name here>'" - This will pull in the song info based on the instructions and default to "The Sign" by Ace of Base if no song is requested.
-
 function spotify() {
     // Include the require Spotify package.
     var Spotify = require('node-spotify-api');
     //  Access the spotify keys from the keys.js file:
     var spotify = new Spotify(keys.spotify);
-    console.log("Spotify keys: ", spotify);
+    // Store all of the arguments in an array. Use process.argv with no index position because the variable nodeArgs will only be called if it is greater than index position of 3.
+    var nodeArgsSpotify = process.argv;
+    // Create an empty variable for holding the movie name
+    var songName = "";
+    // Loop through all the words in the node argument and handle the inclusion of "+"s to accomodate multi-word movie titles.
+    for (var i = 3; i < nodeArgsSpotify.length; i++) {
+        if (i > 3 && i < nodeArgsSpotify.length) {
+            songName = songName + " " + nodeArgsSpotify[i];
+            // Add in a contingency for when no song title is entered then default to The Sign:
+            // *** ADD CODE HERE ***
+        } else {
+            songName += nodeArgsSpotify[i];
+        }
+    }
 
-    var song = process.argv[3];
-    // Access and request song data from the Spotify API:    
-    spotify.search({ type: 'track', query: song }, function(err, data) {
+    // Create the variables to use in the song search:
+    // var song = process.argv[3];
+    params = songName;
+    var space = " ";
+    // Access and request song data from the Spotify API:  
+    // Solution from Stack: https://stackoverflow.com/questions/47657135/how-to-extract-data-from-spotify-npm-package-i-keep-getting-undefine  
+    spotify.search({ type: 'track', query: params }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-       
-      console.log(data); 
+        else{
+            output = space + "Song Name: " + songName.toUpperCase() + "," +
+            space + "Artist Name: " + data.tracks.items[0].album.artists[0].name + "," +
+            space + "Album Name: " + data.tracks.items[0].album.name;           ;
+            console.log(output);    
+            }; 
       });
 }
 
