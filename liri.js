@@ -61,9 +61,9 @@ function spotify() {
     var spotify = new Spotify(keys.spotify);
     // Store all of the arguments in an array. Use process.argv with no index position because the variable nodeArgs will only be called if it is greater than index position of 3.
     var nodeArgsSpotify = process.argv;
-    // Create an empty variable for holding the movie name
+    // Create an empty variable for holding the song name
     var songName = "";
-    // Loop through all the words in the node argument and handle the inclusion of "+"s to accomodate multi-word movie titles.
+    // Loop through all the words in the node argument to accomodate multi-word song titles.
     for (var i = 3; i < nodeArgsSpotify.length; i++) {
         if (i > 3 && i < nodeArgsSpotify.length) {
             songName = songName + " " + nodeArgsSpotify[i];
@@ -72,22 +72,18 @@ function spotify() {
         }
     }
 
-    // Create the variables to use in the song search:
-    params = songName;
-    var space = " ";
     // Access and request song data from the Spotify API. 
     // Solution from Stack: https://stackoverflow.com/questions/47657135/how-to-extract-data-from-spotify-npm-package-i-keep-getting-undefine  
     spotify.search({
         type: 'track',
-        query: params
+        query: songName
     }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         } else {
-            output = space + "Song Name: " + songName.toUpperCase() + "," +
-                space + "Artist Name: " + data.tracks.items[0].album.artists[0].name + "," +
-                space + "Album Name: " + data.tracks.items[0].album.name;
-            console.log(output);
+            console.log("Song Name: ", songName.toUpperCase());
+            console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name);
+            console.log("Album Name: " + data.tracks.items[0].album.name);
         };
     });
 }
