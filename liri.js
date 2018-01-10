@@ -19,13 +19,9 @@ switch (command) {
         break;
     case "spotify-this-song":
         spotify();
-        // Add in a contingency for when no song title is entered then default to The Sign:
-            // *** ADD CODE HERE ***
         break;
     case "movie-this":
         movies();
-         // Add in a contingency for when no movie title is entered then default to Mr. Nobody:
-            // *** ADD CODE HERE ***
         break;
     case "do-what-it-says":
         doIt();
@@ -44,10 +40,12 @@ function twitter() {
     console.log("This is the client: ", client);
 
     var params = {
-        screen_name: 'nodejs'
+        // My username here?
+        screen_name: 'nrroberts'
     };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
+            console.log("---------------------------------");
             console.log("These are the tweets: ", tweets);
         }
     });
@@ -80,10 +78,18 @@ function spotify() {
     }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
-        } else {
+        } 
+        else {
+            console.log("---------------------------------");
             console.log("Song Name: ", songName.toUpperCase());
-            console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name);
-            console.log("Album Name: " + data.tracks.items[0].album.name);
+            console.log("Artist Name: ", data.tracks.items[0].album.artists[0].name);
+            console.log("Album Name: ", data.tracks.items[0].album.name);
+            console.log("Preview URL: ", data.tracks.items[0].preview_url)
+        // Add conditional for when someone does not enter a song name. Add "The Sign" by Ace of Base:
+            // console.log("---------------------------------");
+            // console.log("Song Name: The Sign");
+            // console.log("Artist Name: Ace of Base");
+            // console.log("Album Name: ");
         };
     });
 }
@@ -92,7 +98,7 @@ function spotify() {
 function movies() {
     // Include the request npm package.
     var request = require("request");
-    // Store all of the arguments in an array. Use process.argv with no index position because the variable nodeArgs will only be called if it is greater than index position of 3.
+    // Store all of the arguments in an array. Use process.argv with no index position because the variable nodeArgsMovies will only be called if it is greater than index position of 3.
     var nodeArgsMovies = process.argv;
     // Create an empty variable for holding the movie name
     var movieName = "";
@@ -112,6 +118,7 @@ function movies() {
         if (!error && response.statusCode === 200) {
             // Parse the body of the site and recover the Title, Year, IMDB Rating, Rotten Tomatoes Rating, Country, Language, Plot, Actors.
             // Log the results:
+            console.log("---------------------------------")
             console.log("Title: " + JSON.parse(body).Title);
             console.log("Year: " + JSON.parse(body).Year);
             console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
@@ -120,6 +127,17 @@ function movies() {
             console.log("Language: " + JSON.parse(body).Language);
             console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
+        } else {
+            // Add conditional if a movie name is not entered, default to "Mr. Nobody."
+            console.log("---------------------------------")
+            console.log("Title: Mr. Nobody");
+            console.log("Year: " );
+            console.log("IMDB Rating: " );
+            console.log("Rotten Tomatoes Rating: " );
+            console.log("Country: " );
+            console.log("Language: " );
+            console.log("Plot: " );
+            console.log("Actors: ");
         }
     });
 }
@@ -143,11 +161,44 @@ function doIt() {
         var dataArr = data.split(",");
 
         // Re-display the content as an array for later use.
-        console.log(dataArr);
+        console.log("Split result: ", dataArr);
 
         //   Loop through the newly created output array.
         for (var i = 0; i < dataArr.length; i++) {
-            console.log(dataArr[i]);
+            console.log("Split result after loop: ", dataArr[i]);
+        }
+        // Create variables for the command at index 0 and the song at index 1??
+        var command = dataArr[0];
+        console.log("Command: ", command);
+        var song = dataArr[1];
+        console.log("Song: ", song);
+        // Now what?? Somehow call the function spotify() to run??
+        function spotify() {
+            // Include the require Spotify package.
+            var Spotify = require('node-spotify-api');
+            //  Access the spotify keys from the keys.js file:
+            var spotify = new Spotify(keys.spotify);        
+            // Access and request song data from the Spotify API. 
+            spotify.search({
+                type: 'track',
+                query: song
+            }, function (err, data) {
+                if (err) {
+                    return console.log('Error occurred: ' + err);
+                } 
+                else {
+                    console.log("---------------------------------");
+                    console.log("Song Name: ", song.toUpperCase());
+                    console.log("Artist Name: ", data.tracks.items[0].album.artists[0].name);
+                    console.log("Album Name: ", data.tracks.items[0].album.name);
+                    console.log("Preview URL: ", data.tracks.items[0].preview_url)
+                // Add conditional for when someone does not enter a song name. Add "The Sign" by Ace of Base:
+                    // console.log("---------------------------------");
+                    // console.log("Song Name: The Sign");
+                    // console.log("Artist Name: Ace of Base");
+                    // console.log("Album Name: ");
+                };
+            });
         }
     });
 }
