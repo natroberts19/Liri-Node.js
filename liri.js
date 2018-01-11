@@ -93,108 +93,99 @@ function spotify() {
             console.log("Preview URL: ", data.tracks.items[0].preview_url)
         }
         // "else" conditional for if no song name is entered...add "The Sign" by Ace of Base.
-            // console.log("---------------------------------");
-            // console.log("The Sign, Ace of Base");
+        // console.log("---------------------------------");
+        // console.log("The Sign, Ace of Base");
     })
 };
 
-    // MOVIES CODE: Command "node liri.js movie-this '<movie name here>'" - pull in the movie info listed in the instructions and default to Mr. Nobody if no movie is entered.
-    function movies() {
-        // Include the request npm package.
-        var request = require("request");
-        // Store all of the arguments in an array. Use process.argv with no index position because the variable nodeArgsMovies will only be called if it is greater than index position of 3.
-        var nodeArgsMovies = process.argv;
-        // Create an empty variable for holding the movie name
-        var movieName = "";
-        // Loop through all the words in the node argument and handle the inclusion of "+"s to accomodate multi-word movie titles.
-        for (var i = 3; i < nodeArgsMovies.length; i++) {
-            if (i > 3 && i < nodeArgsMovies.length) {
-                movieName = movieName + "+" + nodeArgsMovies[i];
-            } else {
-                movieName += nodeArgsMovies[i];
-            }
+// MOVIES CODE: Command "node liri.js movie-this '<movie name here>'" - pull in the movie info listed in the instructions and default to Mr. Nobody if no movie is entered.
+function movies() {
+    // Include the request npm package.
+    var request = require("request");
+    // Store all of the arguments in an array. Use process.argv with no index position because the variable nodeArgsMovies will only be called if it is greater than index position of 3.
+    var nodeArgsMovies = process.argv;
+    // Create an empty variable for holding the movie name
+    var movieName = "";
+    // Loop through all the words in the node argument and handle the inclusion of "+"s to accomodate multi-word movie titles.
+    for (var i = 3; i < nodeArgsMovies.length; i++) {
+        if (i > 3 && i < nodeArgsMovies.length) {
+            movieName = movieName + "+" + nodeArgsMovies[i];
+        } else {
+            movieName += nodeArgsMovies[i];
         }
-        // Then run a request to the OMDB API with the movie specified.
-        var queryUrlMovies = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy"
-
-        request(queryUrlMovies, function (error, response, body) {
-            // If the request is successful
-            if (!error && response.statusCode === 200) {
-                // Parse the body of the site and recover the Title, Year, IMDB Rating, Rotten Tomatoes Rating, Country, Language, Plot, Actors.
-                // Log the results:
-                console.log("---------------------------------")
-                console.log("Title: " + JSON.parse(body).Title);
-                console.log("Year: " + JSON.parse(body).Year);
-                console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
-                console.log("Country: " + JSON.parse(body).Country);
-                console.log("Language: " + JSON.parse(body).Language);
-                console.log("Plot: " + JSON.parse(body).Plot);
-                console.log("Actors: " + JSON.parse(body).Actors);
-            } else {
-                // Add conditional if a movie name is not entered, default to "Mr. Nobody."
-                console.log("---------------------------------")
-                console.log("If you haven't watched Mr. Nobody, then you should: http://www.imdb.com/title/tt0485947/");
-            }
-        });
     }
+    // Then run a request to the OMDB API with the movie specified.
+    var queryUrlMovies = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy"
 
-    // DOIT CODE: Command "node liri.js do-what-it-says" - using fs node package, read the info listed from the random.txt file.
-    function doIt() {
-        // Use file system (fs) to read the info from the random.txt file.
-        var fs = require("fs");
-        // The code will store the contents of the reading inside the variable "data"
-        fs.readFile("random.txt", "utf8", function (error, data) {
+    request(queryUrlMovies, function (error, response, body) {
+        // If the request is successful
+        if (!error && response.statusCode === 200) {
+            // Parse the body of the site and recover the Title, Year, IMDB Rating, Rotten Tomatoes Rating, Country, Language, Plot, Actors.
+            // Log the results:
+            console.log("---------------------------------")
+            console.log("Title: " + JSON.parse(body).Title);
+            console.log("Year: " + JSON.parse(body).Year);
+            console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+            console.log("Country: " + JSON.parse(body).Country);
+            console.log("Language: " + JSON.parse(body).Language);
+            console.log("Plot: " + JSON.parse(body).Plot);
+            console.log("Actors: " + JSON.parse(body).Actors);
+        } else {
+            // Add conditional if a movie name is not entered, default to "Mr. Nobody."
+            console.log("---------------------------------")
+            console.log("If you haven't watched Mr. Nobody, then you should: http://www.imdb.com/title/tt0485947/");
+        }
+    });
+}
 
-            // If the code experiences any errors it will log the error to the console.
-            if (error) {
-                return console.log(error);
-            }
+// DOIT CODE: Command "node liri.js do-what-it-says" - using fs node package, read the info listed from the random.txt file.
+function doIt() {
+    // Use file system (fs) to read the info from the random.txt file.
+    var fs = require("fs");
+    // The code will store the contents of the reading inside the variable "data"
+    fs.readFile("random.txt", "utf8", function (error, data) {
 
-            // Log the contents of data
-            console.log(data);
+        // If the code experiences any errors it will log the error to the console.
+        if (error) {
+            return console.log(error);
+        }
 
-            // Break the string down by comma separation.
-            var dataArr = data.split(",");
+        // Log the contents of data
+        console.log(data);
 
-            // Re-display the content as an array for later use.
-            console.log("Split result: ", dataArr);
+        // Break the string down by comma separation.
+        var dataArr = data.split(",");
 
-            //   Loop through the newly created output array.
-            for (var i = 0; i < dataArr.length; i++) {
-                console.log("Split result after loop: ", dataArr[i]);
-            }
-            // Create variables for the command at index 0 and the song at index 1??
-            var command = dataArr[0];
-            console.log("Command: ", command);
-            var song = dataArr[1];
-            console.log("Song: ", song);
-            // Now what?? Somehow call the function spotify() to run??
-            function spotify() {
-                // Include the require Spotify package.
-                var Spotify = require('node-spotify-api');
-                //  Access the spotify keys from the keys.js file:
-                var spotify = new Spotify(keys.spotify);
-                // Access and request song data from the Spotify API. 
-                spotify.search({
-                    type: 'track',
-                    query: song
-                }, function (err, data) {
-                    if (err) {
-                        return console.log('Error occurred: ' + err);
-                    } else {
-                        console.log("---------------------------------");
-                        console.log("Song Name: ", song.toUpperCase());
-                        console.log("Artist Name: ", data.tracks.items[0].album.artists[0].name);
-                        console.log("Album Name: ", data.tracks.items[0].album.name);
-                        console.log("Preview URL: ", data.tracks.items[0].preview_url)
-                        // Add conditional for when someone does not enter a song name. Add "The Sign" by Ace of Base:
-                        // console.log("---------------------------------");
-                        // console.log("Song Name: The Sign");
-                        // console.log("Artist Name: Ace of Base");
-                        // console.log("Album Name: ");
-                    };
-                });
-            }
-        });
-    }
+        // Re-display the content as an array for later use.
+        console.log("Split result: ", dataArr);
+
+        //   Loop through the newly created output array.
+        for (var i = 0; i < dataArr.length; i++) {
+            console.log("Split result after loop: ", dataArr[i]);
+        }
+        // Create variables for the command at index 0 and the song at index 1??
+        var command = dataArr[0];
+        console.log("Command: ", command);
+        var song = dataArr[1];
+        console.log("Song: ", song);
+
+        // Not working!??
+        function songSearch() {
+            spotify.search({
+                type: 'track',
+                query: song
+            }, function (err, data) {
+                if (err) {
+                    return console.log('Error occurred: ' + err);
+                } else if (err, data) {
+                    console.log("---------------------------------");
+                    console.log("Song Name: ", song);
+                    console.log("Artist Name: ", data.tracks.items[0].album.artists[0].name);
+                    console.log("Album Name: ", data.tracks.items[0].album.name);
+                    console.log("Preview URL: ", data.tracks.items[0].preview_url)
+                }
+            })
+        }
+    });
+}
