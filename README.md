@@ -4,7 +4,7 @@
 LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface. LIRI will be a command line node app that takes in parameters and gives you back data.
 
 ### Commands
-Liri.js can take in one of the following commands:
+Liri.js can run the following commands:
 1. my-tweets
 2. spotify-this-song
 3. movie-this
@@ -13,10 +13,10 @@ Liri.js can take in one of the following commands:
 ### What Each Command Does
 1.	**my-tweets:** This command will show the most recent 20 tweets and when they were created in the terminal/bash window.
 2.	**spotify-this-song <song name here>:** This command will send the following information about the song to your terminal/bash window:
-    ..*The song's name
-    ..*Artist(s)
-    ..*The album that the song is from
-    ..*A preview link of the song from Spotify 
+    ..The song's name
+    ..Artist(s)
+    ..The album that the song is from
+    ..A preview link of the song from Spotify 
 ...If no song is provided then Liri will default to "The Sign" by Ace of Base..
 3.	**movie-this <movie name here>:** This command will send the following information to your terminal/bash window:
     ..*Title of the movie.
