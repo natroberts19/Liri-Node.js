@@ -13,32 +13,35 @@ var keys = require("./keys.js");
 var songName = "";
 var movieName = "";
 // Create variables for song and movie defaults:
-var songDefault = "The Sign";
+var songDefault = function sign() {
+    if (!songName) {
+        console.log("The Sign");
+    }
+}
 var movieDefault = "Mr. Nobody";
 
 // COMMAND CODE BELOW:
 // Set up a variable to represent each of the commands:
-var command = process.argv[2];
-
-// Set up a switch statement for each command.
-// Create the code blocks for each command.
-switch (command) {
-    case "my-tweets":
-        twitter();
-        break;
-    case "spotify-this-song":
-        spotify();
-        break;
-    case "movie-this":
-        movies();
-        break;
-    case "do-what-it-says":
-        doIt();
-        break;
-    default:
-        // console.log("No command was entered. Please enter one of the following: 'my-tweets', 'spotify-this-song', 'movie-this', or 'do-what-it-says'");
-        break;
-}
+    var command = process.argv[2];
+    // Set up a switch statement for each command.
+    // Create the code blocks for each command.
+    switch (command) {
+        case "my-tweets":
+            twitter();
+            break;
+        case "spotify-this-song":
+            spotify();
+            break;
+        case "movie-this":
+            movies();
+            break;
+        case "do-what-it-says":
+            doIt();
+            break;
+        default:
+            console.log("No command was entered. Please enter one of the following: 'my-tweets', 'spotify-this-song', 'movie-this', or 'do-what-it-says'");
+            break;
+    }   
 
 // TWITTER CODE: Command "my-tweets" - This will show my last 20 tweets and when they were created in the terminal/bash window.
 function twitter() {
@@ -78,8 +81,6 @@ function spotify() {
     var spotify = new Spotify(keys.spotify);
     // Store all of the arguments in an array. Use process.argv with no index position because the variable nodeArgs will only be called if it is greater than index position of 3.
     var nodeArgsSpotify = process.argv;
-    // // Create an empty variable for holding the song name
-    // var songName = "";
     // Loop through all the words in the node argument to accomodate multi-word song titles.
     for (var i = 3; i < nodeArgsSpotify.length; i++) {
         if (i > 3 && i < nodeArgsSpotify.length) {
@@ -110,12 +111,13 @@ function spotify() {
             fs.appendFile('log.txt', "\n\r------------------------\n\r Song Name: " + songName.toUpperCase(), function (err) {
                 if (err) throw err;
             });
-        }
+        } else {
         // "else" conditional for if no song name is entered...add "The Sign" by Ace of Base.
-        // else () {
         // console.log("---------------------------------");
         // console.log("The Sign, Ace of Base");
-        // }        
+        sign();  
+        }
+           
     })
 };
 
@@ -246,6 +248,7 @@ function doIt() {
     });
 }
 
+// CODE FOR INQUIRER MENU-Not working!
 // Create Inquirer menu to start the program:
 // Load the NPM Package inquirer
 // var inquirer = require("inquirer");
@@ -258,19 +261,12 @@ function doIt() {
 //         choices: ["my-tweets", "spotify-this-song", "movie-this", "do-what-it-says"],
 //         name: "commandChoice"
 //     },
-// {
-//       type: "input",
-//       message: "Please enter a song or movie title first, or just hit Enter.",
-//       name: "userInput",
-//     }
-// ]
+// ];
 
 // Create a "Prompt" function using the variable above as a parameter.
 // inquirer.prompt(menu)
 //   .then(function(inquirerResponse) {
-//     // var command = inquirerResponse.commandChoice;
-//        var movieName = inquirerResponse.userInput;
-//        var songName = inquirerResponse.userInput;
-//       console.log("Command Choice: " + inquirerResponse.commandChoice);
-//       console.log("User Input: " + inquirerResponse.userInput);
-//     });
+    // var commandMenu = inquirerResponse.commandChoice;
+    //   console.log("Command Choice: " + inquirerResponse.commandChoice);
+    // startCommand();
+    // });
