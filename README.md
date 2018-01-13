@@ -35,14 +35,14 @@ Liri.js can run the following commands:
 3.  Navigate to the liri-node-app folder in your terminal/bash window.
 4.  Install the package dependencies from the package.json file.
 5.  Run the commands from the terminal/bash window as indicated:
-* node liri.js my-tweets
-* node liri.js spotify-this-song <song name>
-* node liri.js movie-this <movie name>
-* node liri.js do-what-it-says
+    * node liri.js my-tweets
+    * node liri.js spotify-this-song <song name>
+    * node liri.js movie-this <movie name>
+    * node liri.js do-what-it-says
 
 ### Technologies Used
 #### Node.js Packages
-* node-twitter-api package to retrieve current Tweets from the Twitter API.
-* node-spotify-api package in order to retrieve song information from the Spotify API.
-* node request package to retrieve movie information from the IMdb API.
-* fs readFile and fs appendFile to read data from the random.txt and append data to the log.txt.
+    * node-twitter-api package to retrieve current Tweets from the Twitter API.
+    * node-spotify-api package in order to retrieve song information from the Spotify API.
+    * node request package to retrieve movie information from the IMdb API.
+    * fs readFile and fs appendFile to read data from the random.txt and append data to the log.txt.

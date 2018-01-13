@@ -62,7 +62,7 @@ function twitter() {
                 // BONUS: Add tweets to log.txt file...
                 var fs = require('fs');
 
-                fs.appendFile('log.txt', tweets[i].text, function (err) {
+                fs.appendFile('log.txt', "\n\r------------------------\n\r Tweet Text: " + tweets[i].text, function (err) {
                     if (err) throw err;
                 });
             }
@@ -107,7 +107,7 @@ function spotify() {
             // BONUS: Add song to log.txt file...
             var fs = require('fs');
 
-            fs.appendFile('log.txt', songName, function (err) {
+            fs.appendFile('log.txt', "\n\r------------------------\n\r Song Name: " + songName.toUpperCase(), function (err) {
                 if (err) throw err;
             });
         }
@@ -160,10 +160,10 @@ function movies() {
             // BONUS: Add movie to log.txt file...
             var fs = require('fs');
             // Separate with new line to make it look nicer...
-            fs.appendFile('log.txt', "Movie: " + movieName + "\n\n------------------------\n\n", function (err) {
+            fs.appendFile('log.txt', "\n\r------------------------\n\r Movie Name: " + movieName.toLocaleUpperCase(), function (err) {
                 if (err) throw err;
             });
-        } else if (body.Title === undefined) {
+        } else {
             // log the error/status."
             console.log("---------------------------------")
             console.log("Hmmm, something isn't right. Try again!");
@@ -237,7 +237,7 @@ function doIt() {
                     // BONUS: Add song to log.txt file...
                     var fs = require('fs');
 
-                    fs.appendFile('log.txt', song, function (err) {
+                    fs.appendFile('log.txt', "\n\r------------------------\n\r Random Song Name: " + song, function (err) {
                         if (err) throw err;
                     });
                 }
