@@ -36,7 +36,7 @@ switch (command) {
         doIt();
         break;
     default:
-        console.log("No command was entered. Please enter one of the following: 'my-tweets', 'spotify-this-song', 'movie-this', or 'do-what-it-says'");
+        // console.log("No command was entered. Please enter one of the following: 'my-tweets', 'spotify-this-song', 'movie-this', or 'do-what-it-says'");
         break;
 }
 
@@ -125,8 +125,6 @@ function movies() {
     var request = require("request");
     // Store all of the arguments in an array. Use process.argv with no index position because the variable nodeArgsMovies will only be called if it is greater than index position of 3.
     var nodeArgsMovies = process.argv;
-    // // Create an empty variable for holding the movie name
-    // var movieName = "";
     // Loop through all the words in the node argument and handle the inclusion of "+"s to accomodate multi-word movie titles.
     for (var i = 3; i < nodeArgsMovies.length; i++) {
         if (i > 3 && i < nodeArgsMovies.length) {
@@ -135,11 +133,17 @@ function movies() {
             movieName += nodeArgsMovies[i];
         }
     }
-    // Then run a request to the OMDB API with the movie specified.
+
+    // If movieName is defined, then run a request to the OMDB API with the movie specified.
     var queryUrlMovies = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy"
+
+    // if (body.Title === undefined) {
+    //     console.log("Default Movie: ", movieDefault);
+    //     }
 
     request(queryUrlMovies, function (error, response, body) {
         // If the request is successful
+        // Create a contingency statement to pull in the movie default if no movieName is entered:
         if (!error && response.statusCode === 200) {
             // Parse the body of the site and recover the Title, Year, IMDB Rating, Rotten Tomatoes Rating, Country, Language, Plot, Actors.
             // Log the results:
@@ -155,11 +159,11 @@ function movies() {
             console.log("---------------------------------");
             // BONUS: Add movie to log.txt file...
             var fs = require('fs');
-
-            fs.appendFile('log.txt', movieName, function (err) {
+            // Separate with new line to make it look nicer...
+            fs.appendFile('log.txt', "Movie: " + movieName + "\n\n------------------------\n\n", function (err) {
                 if (err) throw err;
             });
-        } else {
+        } else if (body.Title === undefined) {
             // log the error/status."
             console.log("---------------------------------")
             console.log("Hmmm, something isn't right. Try again!");
@@ -246,30 +250,27 @@ function doIt() {
 // Load the NPM Package inquirer
 // var inquirer = require("inquirer");
 
-// Create a "Prompt" with a series of questions.
-// inquirer
-//   .prompt([
-//     // Create a list of command choices for the user to pick from.
-//     {
+// Create a variable to hold the menu choices.
+// var menu = [
+// {
 //         type: "list",
-//         message: "What would you like to find??",
+//         message: "Choose a command.",
 //         choices: ["my-tweets", "spotify-this-song", "movie-this", "do-what-it-says"],
 //         name: "commandChoice"
 //     },
-//     // Here we ask the user to confirm.
-//     {
-//       type: "confirm",
-//       message: "Are you sure:",
-//       name: "confirm",
-//       default: true
+// {
+//       type: "input",
+//       message: "Please enter a song or movie title first, or just hit Enter.",
+//       name: "userInput",
 //     }
-//   ])
+// ]
+
+// Create a "Prompt" function using the variable above as a parameter.
+// inquirer.prompt(menu)
 //   .then(function(inquirerResponse) {
-//     // If the inquirerResponse confirms, we displays the inquirerResponse's username and pokemon from the answers.
-//     if (inquirerResponse.confirm) {
-//       console.log("Press enter to run your search: " + inquirerResponse.commandChoice);
-//     }
-//     else {
-//       console.log("\nThat's okay " + inquirerResponse.username + ", come again when you are more sure.\n");
-//     }
-//   });
+//     // var command = inquirerResponse.commandChoice;
+//        var movieName = inquirerResponse.userInput;
+//        var songName = inquirerResponse.userInput;
+//       console.log("Command Choice: " + inquirerResponse.commandChoice);
+//       console.log("User Input: " + inquirerResponse.userInput);
+//     });
