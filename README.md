@@ -13,11 +13,14 @@ Liri.js can run the following commands:
 ### What Each Command Does
 1.	**my-tweets:** This command will show the most recent 20 tweets and when they were created in the terminal/bash window.
 2.	**spotify-this-song <song name here>:** This command will send the following information about the song to your terminal/bash window:
-    ..The song's name
-    ..Artist(s)
-    ..The album that the song is from
-    ..A preview link of the song from Spotify 
-...If no song is provided then Liri will default to "The Sign" by Ace of Base..
+    * The song's name
+    * Artist(s)
+    * The album that the song is from
+    * A preview link of the song from Spotify 
+
+If no song is provided then Liri will default to "The Sign" by Ace of Base.
+
+
 3.	**movie-this <movie name here>:** This command will send the following information to your terminal/bash window:
     ..*Title of the movie.
     ..*Year the movie came out.
